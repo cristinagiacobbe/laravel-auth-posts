@@ -18,7 +18,7 @@
                         <tr class="">
                             <td scope="row">{{ $post->id }}</td>
                             <td>{{ $post->title }}</td>
-                            <td>{{ $post->cover_image }}</td>
+                            <td><img width="150" src="{{ $post->cover_image }}" alt=""></td>
                             <td>{{ $post->slug }}</td>
                             <td>
                                 <a href="{{ route('admin.posts.show', $post) }}">View</a>
