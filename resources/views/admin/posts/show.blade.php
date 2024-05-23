@@ -2,10 +2,11 @@
 
 @section('content')
     <div class="container">
+        <a class="btn btn-sm btn-primary mt-5" href="{{ route('admin.posts.index') }}">Turn back to comics list</a>
         <div class="card mt-5" style="max-width: 540px;">
             <div class="row g-0">
                 <div class="col-md-4">
-                    <img src="..." class="img-fluid rounded-start" alt="...">
+                    <img src="{{ $post->cover_image }}" class="img-fluid rounded-start" alt="...">
                 </div>
                 <div class="col-md-8">
                     <div class="card-body">
