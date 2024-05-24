@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Post;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
+use Illuminate\support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -30,7 +32,16 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request)
     {
-        //
+        $val_data = $request->validated();
+        $val_data['slug'] = Str::of($request->title)->slug('-');
+
+
+        if ($request->has('cover_image')) {
+            $val_data['cover_image'] = Storage::put('uploads', $request->cover_image);
+        };
+
+        Post::create($val_data);
+        return to_route('admin.posts.index')->with('message', 'Post created miracolously😄');
     }
 
     /**
@@ -46,7 +57,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        return view('admin.posts.edit', compact('post'));
     }
 
     /**
@@ -54,7 +65,18 @@ class PostController extends Controller
      */
     public function update(UpdatePostRequest $request, Post $post)
     {
-        //
+        $val_data = $request->validated();
+        $val_data['slug'] = Str::of($request->title)->slug('-');
+
+        if ($request->has('cover_image')) {
+            if ($post->cover_image) {
+                Storage::delete($post->cover_image);
+            }
+        }
+        $val_data['cover_image'] = Storage::put('uploads', $request->cover_image);
+
+        $post->update($val_data);
+        return to_route('admin.posts.index')->with('message', 'Post updated miracolously😄');
     }
 
     /**

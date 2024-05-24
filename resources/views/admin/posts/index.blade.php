@@ -2,8 +2,12 @@
 
 @section('content')
     <div class="container">
+
+        @include('partials.success')
+
         <div class="table-responsive">
             <table class="table table-primary">
+                <a class="btn btn-info m-2" href="{{ route('admin.posts.create') }}">Add a new comic</a>
                 <thead>
                     <tr>
                         <th scope="col">ID</th>
@@ -18,12 +22,26 @@
                         <tr class="">
                             <td scope="row">{{ $post->id }}</td>
                             <td>{{ $post->title }}</td>
-                            <td><img width="150" src="{{ $post->cover_image }}" alt=""></td>
+
+                            <td>
+                                @if (Str::startsWith($post->cover_image, 'http://'))
+                                    <img width="100" src="{{ $post->cover_image }}" alt="">
+                                @else
+                                    <img width="100" src="{{ asset('storage/' . $post->cover_image) }}" alt="">
+                                @endif
+                            </td>
+
                             <td>{{ $post->slug }}</td>
                             <td>
-                                <a href="{{ route('admin.posts.show', $post) }}">View</a>
-                                <a href="">Edit</a>
-                                <a href="">Delete</a>
+                                <a href="{{ route('admin.posts.show', $post) }}" class="btn btn-primary ">
+                                    <i class="fa-solid fa-binoculars"></i>
+                                    View</a>
+                                <a href="{{ route('admin.posts.edit', $post) }}" class="btn btn-primary ">
+                                    <i class="fa-solid fa-pencil"></i>
+                                    Edit</a>
+                                <a href="" class="btn btn-danger ">
+                                    <i class="fa-solid fa-ban"></i>
+                                    Delete</a>
                             </td>
                         </tr>
                     @empty
