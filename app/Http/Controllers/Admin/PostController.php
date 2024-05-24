@@ -71,9 +71,11 @@ class PostController extends Controller
         if ($request->has('cover_image')) {
             if ($post->cover_image) {
                 Storage::delete($post->cover_image);
+            } else {
+                $val_data['cover_image'] = Storage::put('uploads', $request->cover_image);
             }
         }
-        $val_data['cover_image'] = Storage::put('uploads', $request->cover_image);
+
 
         $post->update($val_data);
         return to_route('admin.posts.index')->with('message', 'Post updated miracolously😄');
@@ -84,6 +86,10 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        if ($post->cover_image) {
+            Storage::delete($post->cover_image);
+        }
+        $post->delete();
+        return to_route('admin.posts.index')->with('message', 'Post definitively removed');
     }
 }

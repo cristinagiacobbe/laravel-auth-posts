@@ -6,7 +6,12 @@
         <div class="card mt-5" style="max-width: 540px;">
             <div class="row g-0">
                 <div class="col-md-4">
-                    <img src="{{ $post->cover_image }}" class="img-fluid rounded-start" alt="...">
+                    @if (Str::startsWith($post->cover_image, 'http://'))
+                        <img width="300" src="{{ $post->cover_image }}" class="img-fluid rounded-start" alt="">
+                    @else
+                        <img width="300" src="{{ asset('storage/' . $post->cover_image) }}"
+                            class="img-fluid rounded-start" alt="">
+                    @endif
                 </div>
                 <div class="col-md-8">
                     <div class="card-body">

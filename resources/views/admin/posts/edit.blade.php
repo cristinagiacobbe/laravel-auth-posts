@@ -25,6 +25,14 @@
 
             <div class="mb-3">
                 <label for="cover_image" class="form-label">Cover image</label>
+                <div>
+                    @if (Str::startsWith($post->cover_image, 'http://'))
+                        <img width="100" src="{{ $post->cover_image }}" alt="">
+                    @else
+                        <img width="100" src="{{ asset('storage/' . $post->cover_image) }}" alt="">
+                    @endif
+                </div>
+
                 <input type="file" class="form-control @error('cover_image')is-invalid @enderror" name="cover_image"
                     id="cover_image" aria-describedby="helpcover_image"
                     placeholder="Here you can upload an image for your comic" />
